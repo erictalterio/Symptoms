@@ -1,43 +1,31 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * This class is responsible for running the analytics counter application.
+ * It reads symptoms from a file, counts their occurrences, and writes the results to a file.
+ */
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+  public static void main(String[] args) {
+    try {
+      // Step 1: Read the symptoms from the file
+      String filepath = "symptomsEmpty.txt";
+      ISymptomReader symptomReader = new ReadSymptomDataFromFile(filepath);
+      List<String> symptomsList = symptomReader.getSymptoms();
 
-			line = reader.readLine();	// get another symptom
-		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-	}
+      // Step 2: Count the occurrences of each symptom
+      ISymptomCounter symptomCounter = new SymptomCounter();
+      Map<String, Integer> symptomCounts = symptomCounter.countSymptoms(symptomsList);
+
+      // Step 3: Write the results to a file
+      SymptomCountsFileWriter writer = new SymptomCountsFileWriter();
+      writer.writeSymptomCountsToFile(symptomCounts, "result.out");
+    } catch (IOException e) {
+      System.err.println("An error occurred while processing the data: " + e.getMessage());
+    }
+  }
 }

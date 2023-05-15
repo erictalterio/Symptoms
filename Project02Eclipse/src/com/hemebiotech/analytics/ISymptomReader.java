@@ -1,20 +1,22 @@
 package com.hemebiotech.analytics;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import java.util.List;
 
 /**
- * Anything that will read symptom data from a source
- * The important part is, the return value from the operation, which is a list of strings,
- * that may contain many duplications
- * 
- * The implementation does not need to order the list
- * 
+ * Reads symptom data from a source and returns a list of symptoms, which may contain duplicates.
+ * The implementation does not guarantee the order of the list.
  */
 public interface ISymptomReader {
-	/**
-	 * If no data is available, return an empty List
-	 * 
-	 * @return a raw listing of all Symptoms obtained from a data source, duplicates are possible/probable
-	 */
-	List<String> GetSymptoms ();
+ /**
+   * Returns a raw list of all symptoms obtained from a data source, which may contain duplicates.
+   * If no data is available, an empty list is returned.
+   * 
+   * @return a list of all symptoms obtained from the data source, which may contain duplicates.
+   * @throws FileNotFoundException if the data source file is not found.
+   * @throws IOException if there is an IO error while reading the file.
+   */
+  List < String > getSymptoms() throws FileNotFoundException, IOException;
 }
