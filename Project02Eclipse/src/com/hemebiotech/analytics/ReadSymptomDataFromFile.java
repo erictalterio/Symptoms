@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
-  private final String filepath; // The path of the file that contains the list of symptoms
+  private final String filepath; // The path of the file that contains the list of symptoms. Filepath can only be accessed within ReadSymptomDataFromFile
 
   /**
    * Constructs a new ReadSymptomDataFromFile object with the specified filepath.
@@ -25,13 +25,13 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
    * @throws IllegalArgumentException if the filepath is null or empty
    * @throws RuntimeException if the file is empty or contains invalid lines
    */
-  public ReadSymptomDataFromFile(String filepath) {
+  public ReadSymptomDataFromFile(String filepath) { //constructor
     if (filepath == null || filepath.isEmpty()) {
       throw new IllegalArgumentException("Error: Filepath is null or empty");
     }
     this.filepath = filepath;
     try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) { // Work in conjunction to read the contents of a file faster. FileReader reads a file character by character, while BufferedReader reads the file line by line and stores each line in a buffer to improve performance.
-      String line = null; // initializes the line variable as null
+      String line = null; // initializes the line variable as null to ensure that the variable has a valid initial value and can be properly assigned within the loop
       boolean emptyFile = true; // check Whether the file is empty or not. Initialized as true
       while ((line = reader.readLine()) != null) {
         emptyFile = false; // emptyFile changes to false if file is not empty
@@ -54,7 +54,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
    * @throws FileNotFoundException if the file is not found
    * @throws IOException if an I/O error occurs
    */
-  @Override
+  @Override // because implementing an interface method
   public List < String > getSymptoms() throws FileNotFoundException, IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
       List < String > result = new ArrayList < > ();

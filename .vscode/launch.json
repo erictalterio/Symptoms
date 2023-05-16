@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "com.hemebiotech.analytics.Application",
+            "projectName": "Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application_dbc5a905"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

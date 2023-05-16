@@ -10,10 +10,10 @@ import java.util.Map;
  */
 public class AnalyticsCounter {
 
-  public static void main(String[] args) {
+  public void run() {
     try {
       // Step 1: Read the symptoms from the file
-      String filepath = "symptomsEmpty.txt";
+      String filepath = "symptoms.txt";
       ISymptomReader symptomReader = new ReadSymptomDataFromFile(filepath);
       List<String> symptomsList = symptomReader.getSymptoms();
 
@@ -24,6 +24,8 @@ public class AnalyticsCounter {
       // Step 3: Write the results to a file
       SymptomCountsFileWriter writer = new SymptomCountsFileWriter();
       writer.writeSymptomCountsToFile(symptomCounts, "result.out");
+      // All operations executed successfully
+    System.out.println("All operations executed successfully.");
     } catch (IOException e) {
       System.err.println("An error occurred while processing the data: " + e.getMessage());
     }
