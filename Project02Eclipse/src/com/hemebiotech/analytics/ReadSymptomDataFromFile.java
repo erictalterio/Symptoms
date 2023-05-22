@@ -30,20 +30,31 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
       throw new IllegalArgumentException("Error: Filepath is null or empty");
     }
     this.filepath = filepath;
-    try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) { // Work in conjunction to read the contents of a file faster. FileReader reads a file character by character, while BufferedReader reads the file line by line and stores each line in a buffer to improve performance.
-      String line = null; // initializes the line variable as null to ensure that the variable has a valid initial value and can be properly assigned within the loop
-      boolean emptyFile = true; // check Whether the file is empty or not. Initialized as true
-      while ((line = reader.readLine()) != null) {
-        emptyFile = false; // emptyFile changes to false if file is not empty
-        if (!line.matches("^\\s*\\S.*\\S\\s*$")) { //This regex pattern matches any string that starts with zero or more whitespace characters, followed by a non-whitespace character, followed by any number of characters (including whitespace), and ending with a non-whitespace character, followed by zero or more whitespace characters. This ensures that each line contains only one symptom and that there is no extraneous whitespace before or after the symptom.
-          throw new RuntimeException("Error: File contents have invalid format. Each line should contain only one symptom and no extraneous whitespace before or after the symptom.");
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new FileReader(filepath)); { // Work in conjunction to read the contents of a file faster. FileReader reads a file character by character, while BufferedReader reads the file line by line and stores each line in a buffer to improve performance.
+        String line = null; // initializes the line variable as null to ensure that the variable has a valid initial value and can be properly assigned within the loop
+        boolean emptyFile = true; // check Whether the file is empty or not. Initialized as true
+        while ((line = reader.readLine()) != null) {
+          emptyFile = false; // emptyFile changes to false if file is not empty
+          if (!line.matches("^\\s*\\S.*\\S\\s*$")) { //This regex pattern matches any string that starts with zero or more whitespace characters, followed by a non-whitespace character, followed by any number of characters (including whitespace), and ending with a non-whitespace character, followed by zero or more whitespace characters. This ensures that each line contains only one symptom and that there is no extraneous whitespace before or after the symptom.
+            throw new RuntimeException("Error: File contents have invalid format. Each line should contain only one symptom and no extraneous whitespace before or after the symptom.");
+          }
         }
-      }
-      if (emptyFile) { // initialized if emptyFile remains true
-        throw new RuntimeException("Error: Symptom list is null or empty");
+        if (emptyFile) { // initialized if emptyFile remains true
+          throw new RuntimeException("Error: Symptom list is null or empty");
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Error opening file: " + e.getMessage());
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
     }
   }
 
@@ -54,15 +65,26 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
    * @throws FileNotFoundException if the file is not found
    * @throws IOException if an I/O error occurs
    */
-  @Override // because implementing an interface method
+  @Override // because implementing an interface
   public List < String > getSymptoms() throws FileNotFoundException, IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new FileReader(filepath));
       List < String > result = new ArrayList < > ();
       String line = null;
       while ((line = reader.readLine()) != null) {
         result.add(line);
       }
       return result;
+    } finally { // To close BufferedReader, exception or not 
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          // Handle the exception if necessary
+          e.printStackTrace();
+        }
+      }
     }
   }
 }

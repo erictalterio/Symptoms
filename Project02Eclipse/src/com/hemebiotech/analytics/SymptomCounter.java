@@ -1,8 +1,8 @@
 package com.hemebiotech.analytics;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A class for counting the occurrences of each symptom in a list of symptoms.
@@ -17,20 +17,20 @@ public class SymptomCounter implements ISymptomCounter {
    */
   @Override
   public Map < String, Integer > countSymptoms(List < String > symptoms) {
-    // Create a new HashMap to store the symptom counts
-    Map < String, Integer > symptomCounts = new HashMap < > ();
+    // Create a new TreeMap to store the symptom counts in alphabetical order
+    Map < String, Integer > symptomCounts = new TreeMap < > ();
 
     // Loop through each symptom in the list of symptoms
     for (String symptom: symptoms) {
-      // Convert the symptom to lowercase before counting
       String lowercaseSymptom = symptom.toLowerCase();
-      
-      // Increment the count of the current symptom in the symptomCounts map,
-      // or set the count to 1 if it does not yet exist in the map
-      symptomCounts.put(lowercaseSymptom, symptomCounts.getOrDefault(lowercaseSymptom, 0) + 1);
+      Integer count = symptomCounts.get(lowercaseSymptom);
+      if (count == null) {
+        count = 0;
+      }
+      symptomCounts.put(lowercaseSymptom, count + 1);
     }
 
-    // Return the map of symptom counts
+    // Return the sorted map of symptom counts
     return symptomCounts;
   }
 }
