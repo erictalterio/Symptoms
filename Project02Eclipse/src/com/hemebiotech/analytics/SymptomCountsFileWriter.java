@@ -28,7 +28,7 @@ public class SymptomCountsFileWriter {
           fileWriter.close();
         } catch (IOException e) {
           // Handle the exception if necessary
-          System.err.println("Error closing reader: " + e.getMessage());
+          System.err.println("Error closing writer: " + e.getMessage());
           e.printStackTrace();
         }
       }

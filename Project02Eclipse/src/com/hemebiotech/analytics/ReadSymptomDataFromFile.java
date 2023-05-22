@@ -52,6 +52,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
         try {
           reader.close();
         } catch (IOException e) {
+          System.err.println("Error closing reader: " + e.getMessage());
           e.printStackTrace();
         }
       }
@@ -82,6 +83,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
           reader.close();
         } catch (IOException e) {
           // Handle the exception if necessary
+          System.err.println("Error closing reader: " + e.getMessage());
           e.printStackTrace();
         }
       }
