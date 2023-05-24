@@ -8,4 +8,4 @@ public class Main {
     analyticsCounter.run();
   }
 }
-// testing merge conflicts
+// testing merge conflicts 2
