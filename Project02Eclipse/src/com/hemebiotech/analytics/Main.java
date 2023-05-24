@@ -8,3 +8,4 @@ public class Main {
     analyticsCounter.run();
   }
 }
+// making conflicting changes
