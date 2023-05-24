@@ -7,4 +7,5 @@ public class Main {
     AnalyticsCounter analyticsCounter = new AnalyticsCounter();
     analyticsCounter.run();
   }
-}// merge conflict test 3
+}
+// testing merge conflicts 3
