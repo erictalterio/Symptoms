@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class SymptomCountsFileWriter {
 
-  public void writeSymptomCountsToFile(Map < String, Integer > symptomCountMap, String outputFilePath) {
+  public void writeSymptomCountsToFile(Map < String, Integer > symptomCountMap, String outputFilePath) { 
     BufferedWriter fileWriter = null;
     try {
       fileWriter = new BufferedWriter(new FileWriter(outputFilePath));
